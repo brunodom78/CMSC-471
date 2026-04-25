@@ -1,0 +1,18 @@
+version = 0.1
+
+[default.build.parameters]
+template_file = "/Users/dombruno/CMSC-473/CMSC-471/template.yaml"
+cached = true
+parallel = true
+use_container = true
+
+[default.global.parameters]
+region = "us-east-1"
+
+[default.deploy.parameters]
+stack_name = "CMSC471"
+resolve_s3 = true
+s3_prefix = "CMSC471"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

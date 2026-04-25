@@ -3,7 +3,8 @@ Resources:
   Api:
     Type: AWS::Serverless::Api
     Properties:
-      Name: !Sub
+      Name:
+        Fn::Sub:
         - ${ResourceName} From Stack ${AWS::StackName}
         - ResourceName: Api
       StageName: Prod
@@ -16,17 +17,19 @@ Resources:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloWorldFunction.Arn}/invocations
+                uri:
+                  Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloWorldFunction.Arn}/invocations
               responses: {}
       EndpointConfiguration: REGIONAL
       TracingEnabled: false
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Description: !Sub
+      Description:
+        Fn::Sub:
         - Stack ${AWS::StackName} Function ${ResourceName}
         - ResourceName: HelloWorldFunction
-      CodeUri: hello_service
+      CodeUri: HelloWorldFunction
       Handler: handler.handler
       Runtime: python3.13
       Role: arn:aws:iam::730335581373:role/LabRole
@@ -38,14 +41,19 @@ Resources:
           Properties:
             Path: /
             Method: GET
-            RestApiId: !Ref Api
+            RestApiId:
+              Ref: Api
       Environment: {}
+    Metadata:
+      SamResourceId: HelloWorldFunction
   HelloWorldFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Retain
     Properties:
-      LogGroupName: !Sub /aws/lambda/${HelloWorldFunction}
+      LogGroupName:
+        Fn::Sub: /aws/lambda/${HelloWorldFunction}
 Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL
-    Value: !Sub https://${Api}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+    Value:
+      Fn::Sub: https://${Api}.execute-api.${AWS::Region}.amazonaws.com/Prod/
