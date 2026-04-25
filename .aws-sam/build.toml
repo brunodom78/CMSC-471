@@ -10,4 +10,14 @@ manifest_hash = ""
 packagetype = "Zip"
 functions = ["HelloWorldFunction"]
 
+[function_build_definitions.a2c64e9b-ccf4-4947-a844-2ca046a052e3]
+codeuri = "/Users/dombruno/CMSC-473/CMSC-471/src/proxy"
+runtime = "python3.13"
+architecture = "x86_64"
+handler = "proxy.proxy_handler"
+source_hash = "f47995e38fa25a547b4c3d02b86747e91e3a522fc1c5bdafd33590a57790c113"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["StateicProxyFunction"]
+
 [layer_build_definitions]

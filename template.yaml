@@ -1,4 +1,10 @@
 Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  LabRoleArn:
+    Type: String
+    Description: The ARN of the LabRole AWS Learner Lab
+    Default: arn:aws:iam::730335581373:role/LabRole
 Resources:
   Api:
     Type: AWS::Serverless::Api
@@ -16,7 +22,7 @@ Resources:
               x-amazon-apigateway-integration:
                 httpMethod: POST
                 type: aws_proxy
-                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloWorldFunction.Arn}/invocations
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${StateicProxyFunction.Arn}/invocations
               responses: {}
       EndpointConfiguration: REGIONAL
       TracingEnabled: false
@@ -29,9 +35,62 @@ Resources:
       CodeUri: hello_service
       Handler: handler.handler
       Runtime: python3.13
-      Role: arn:aws:iam::730335581373:role/LabRole
+      Role: !Ref LabRoleArn
       MemorySize: 3008
       Timeout: 30
+      Environment: {}
+  HelloWorldFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${HelloWorldFunction}
+      RetentionInDays: 7
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub cmsc471-bucket-${AWS::AccountId}
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: aws:kms
+              KMSMasterKeyID: alias/aws/s3
+      PublicAccessBlockConfiguration:
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+  BucketBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Id: RequireEncryptionInTransit
+        Version: '2012-10-17'
+        Statement:
+          - Principal: '*'
+            Action: '*'
+            Effect: Deny
+            Resource:
+              - !GetAtt Bucket.Arn
+              - !Sub ${Bucket.Arn}/*
+            Condition:
+              Bool:
+                aws:SecureTransport: 'false'
+  StateicProxyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Function ${ResourceName}
+        - ResourceName: StateicProxyFunction
+      CodeUri: src/proxy
+      Handler: proxy.proxy_handler
+      Runtime: python3.13
+      Role: !Ref LabRoleArn
+      MemorySize: 3008
+      Timeout: 30
+      Environment:
+        Variables:
+          BUCKET_BUCKET_NAME: !Ref Bucket
+          BUCKET_BUCKET_ARN: !GetAtt Bucket.Arn
       Events:
         ApiGET:
           Type: Api
@@ -39,13 +98,16 @@ Resources:
             Path: /
             Method: GET
             RestApiId: !Ref Api
-      Environment: {}
-  HelloWorldFunctionLogGroup:
+  StateicProxyFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Properties:
-      LogGroupName: !Sub /aws/lambda/${HelloWorldFunction}
+      LogGroupName: !Sub /aws/lambda/${StateicProxyFunction}
+      RetentionInDays: 7
 Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL
     Value: !Sub https://${Api}.execute-api.${AWS::Region}.amazonaws.com/Prod/
+  FrontendBucketName:
+    Value: !Ref Bucket

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HelloWorld - The beginning of something beautiful</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#f0eded",
+                        "inverse-surface": "#313030",
+                        "on-primary-fixed-variant": "#2b20d2",
+                        "on-background": "#1c1b1b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#fff9f7",
+                        "on-secondary-container": "#626566",
+                        "secondary-fixed": "#e1e3e4",
+                        "surface-container-high": "#eae7e7",
+                        "on-secondary": "#ffffff",
+                        "tertiary-container": "#bf5200",
+                        "on-tertiary-fixed-variant": "#793100",
+                        "on-surface-variant": "#464556",
+                        "on-secondary-fixed": "#191c1d",
+                        "error": "#ba1a1a",
+                        "primary-container": "#5d5cff",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f3f0ef",
+                        "background": "#fcf9f8",
+                        "surface-tint": "#4643e9",
+                        "surface-dim": "#dcd9d9",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#fcf9f8",
+                        "on-tertiary-fixed": "#341100",
+                        "surface-container-low": "#f6f3f2",
+                        "primary-fixed-dim": "#c1c1ff",
+                        "surface-variant": "#e5e2e1",
+                        "tertiary-fixed-dim": "#ffb691",
+                        "outline-variant": "#c7c4d8",
+                        "on-primary-container": "#fdf9ff",
+                        "secondary-fixed-dim": "#c5c7c8",
+                        "secondary": "#5c5f60",
+                        "surface-container-highest": "#e5e2e1",
+                        "primary": "#433fe5",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c1c1ff",
+                        "outline": "#767587",
+                        "on-surface": "#1c1b1b",
+                        "primary-fixed": "#e1dfff",
+                        "secondary-container": "#e1e3e4",
+                        "tertiary": "#984000",
+                        "surface": "#fcf9f8",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-secondary-fixed-variant": "#454748",
+                        "on-primary-fixed": "#09006b",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "48px",
+                        "stack-md": "24px",
+                        "container-max": "1200px",
+                        "section-padding": "128px",
+                        "base": "8px",
+                        "stack-sm": "12px",
+                        "gutter": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Manrope"],
+                        "h2": ["Manrope"],
+                        "h1": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "h3": ["Manrope"],
+                        "label-sm": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "h2": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "h1": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-lg": ["20px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "h3": ["32px", {"lineHeight": "1.3", "letterSpacing": "0", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #fcf9f8;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-12 h-20">
+<div class="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">HelloWorld</div>
+<div class="hidden md:flex items-center gap-stack-md">
+<a class="font-manrope text-sm font-medium tracking-tight text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 pb-1" href="#">Features</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-gray-500 dark:text-gray-400 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400 transition-all" href="#">Pricing</a>
+<a class="font-manrope text-sm font-medium tracking-tight text-gray-500 dark:text-gray-400 transition-colors hover:text-indigo-600 dark:hover:text-indigo-400 transition-all" href="#">About</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-sm text-label-sm active:scale-95 transition-transform duration-200">
+                Get Started
+            </button>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex flex-col items-center justify-center pt-20 px-6 overflow-hidden">
+<!-- Decorative Background Element -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] bg-gradient-to-tr from-primary/5 via-tertiary/5 to-transparent rounded-full blur-3xl opacity-60"></div>
+</div>
+<div class="relative z-10 text-center max-w-4xl mx-auto space-y-stack-md">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-container/10 border border-primary-container/20 rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-label-sm font-label-sm text-on-primary-fixed-variant">NOW LIVE IN BETA</span>
+</div>
+<h1 class="font-h1 text-h1 text-on-background leading-tight">
+                    Hello World
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                    The beginning of something beautiful. Experience a platform built for technical precision and minimalist aesthetics.
+                </p>
+<div class="pt-stack-md">
+<button class="bg-primary text-on-primary px-stack-lg py-4 rounded-lg font-label-sm text-label-sm shadow-sm hover:shadow-lg transition-all active:scale-95">
+                        Get Started
+                    </button>
+</div>
+</div>
+<!-- Hero Image / Visual Element -->
+<div class="mt-section-padding w-full max-w-container-max mx-auto px-gutter relative z-10">
+<div class="aspect-video rounded-xl overflow-hidden border border-outline-variant bg-surface-container-lowest shadow-2xl">
+<img alt="Clean software interface" class="w-full h-full object-cover" data-alt="Minimalist software dashboard with clean lines, white workspace, and subtle data visualizations in a bright airy studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeW5hITjIhWKtWiiGJDunjgcdoMEPO1vhZKZ39ZNKpMyLzv9JTy4-f4yZ3D25smpY4MNRshD0gyCATOaZ8HWCl9vvuHT0abJSoTk6Jic_m_GEOu7_zuTWBVQWEy0eTvWnDbYLlR7cKp-m8bcKl6qAWjvUpBi6dKyhPtbJZHg56XKXJFqFWAVYzu7iB9F33kdo7vUCWsEZvPbtc-XJ_nlt_ePohRC5-fbLFe0opE8O65kZmAvpaGMckkEOUXn__VXUdCRrNFO79Uga1"/>
+</div>
+</div>
+</section>
+<!-- Bento Grid Features Section -->
+<section class="py-section-padding max-w-container-max mx-auto px-gutter">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-base md:gap-stack-md">
+<!-- Large Feature Card -->
+<div class="md:col-span-8 bg-surface-container-low p-stack-lg rounded-xl border border-outline-variant hover:shadow-md transition-all group">
+<div class="mb-stack-md">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="architecture">architecture</span>
+</div>
+<h3 class="font-h3 text-h3 mb-stack-sm">Technical Precision</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+                        Engineered with a focus on mathematical harmony and performance. Every pixel is calculated to deliver the highest degree of clarity.
+                    </p>
+<div class="mt-stack-lg relative h-48 rounded-lg overflow-hidden border border-outline-variant/30">
+<img alt="Architecture detail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Minimalist architectural detail with clean white surfaces and sharp geometric shadows under bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ2ofqAV5Vd-ZupdHHDviZA7dSuVNSTYOsvkngSejYVzJMoMwwWhUcC0K0P-VBEoO_myC2h1es5bxaOwkPMSPdr1oEOv33GBslhfz3MVD0ZjziZ2eaXULyr87ePiZKhSUXFqc8CRh2LNyRImtWs3oxZonE4FFTl9i4juyqh070OCiYBwz_MHjRqIqZJrTSYyb8dRmY84WDS0nQ3u3gniX8RDgg6FZCf9uGJ5HHz7TorbIpsuYVZjqptbLkv-mIg9jY1m6syAqRKCEw"/>
+</div>
+</div>
+<!-- Small Feature Card 1 -->
+<div class="md:col-span-4 bg-white p-stack-lg rounded-xl border border-outline-variant hover:shadow-md transition-all">
+<div class="mb-stack-md">
+<span class="material-symbols-outlined text-tertiary text-4xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h3 class="font-h3 text-h3 mb-stack-sm">Pure Minimal</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        A reductive philosophy that removes visual noise to prioritize your content.
+                    </p>
+</div>
+<!-- Small Feature Card 2 -->
+<div class="md:col-span-4 bg-white p-stack-lg rounded-xl border border-outline-variant hover:shadow-md transition-all">
+<div class="mb-stack-md">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="bolt">bolt</span>
+</div>
+<h3 class="font-h3 text-h3 mb-stack-sm">Fast Flow</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Accelerate your workflow with intuitive interactions and instant feedback loops.
+                    </p>
+</div>
+<!-- Medium Feature Card -->
+<div class="md:col-span-8 bg-surface-container-high p-stack-lg rounded-xl border border-outline-variant hover:shadow-md transition-all flex flex-col md:flex-row gap-stack-lg">
+<div class="flex-1">
+<div class="mb-stack-md">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="verified_user">verified_user</span>
+</div>
+<h3 class="font-h3 text-h3 mb-stack-sm">Built-in Trust</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Security isn't a feature, it's our foundation. Your data is protected by industry-leading encryption and quiet reliability.
+                        </p>
+</div>
+<div class="flex-1 bg-white/50 backdrop-blur rounded-lg p-stack-sm border border-outline-variant/50">
+<div class="space-y-base">
+<div class="h-2 w-3/4 bg-primary/20 rounded"></div>
+<div class="h-2 w-1/2 bg-on-surface-variant/10 rounded"></div>
+<div class="h-2 w-5/6 bg-on-surface-variant/10 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- High-End Call to Action Section -->
+<section class="py-section-padding bg-inverse-surface text-inverse-on-surface">
+<div class="max-w-7xl mx-auto px-6 md:px-12 text-center space-y-stack-md">
+<h2 class="font-h2 text-h2 mb-stack-md">Ready to begin?</h2>
+<p class="font-body-lg text-body-lg text-surface-dim max-w-xl mx-auto opacity-80">
+                    Join thousands of professionals who value precision and minimalist aesthetics in their daily operations.
+                </p>
+<div class="flex flex-col sm:flex-row gap-stack-sm justify-center pt-stack-md">
+<button class="bg-primary text-on-primary px-stack-lg py-4 rounded-lg font-label-sm text-label-sm hover:bg-primary/90 transition-colors">
+                        Create Account
+                    </button>
+<button class="bg-transparent border border-outline text-inverse-on-surface px-stack-lg py-4 rounded-lg font-label-sm text-label-sm hover:bg-white/5 transition-colors">
+                        Book a Demo
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800">
+<div class="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto px-6 md:px-12 gap-8">
+<div class="space-y-4">
+<div class="text-lg font-bold text-gray-900 dark:text-white">HelloWorld</div>
+<p class="font-manrope text-xs tracking-wide text-gray-500 dark:text-gray-400">© 2024 HelloWorld. Minimalist precision.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-manrope text-xs tracking-wide text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white underline-offset-4 hover:underline transition-all duration-300" href="#">Privacy Policy</a>
+<a class="font-manrope text-xs tracking-wide text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white underline-offset-4 hover:underline transition-all duration-300" href="#">Terms of Service</a>
+<a class="font-manrope text-xs tracking-wide text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-white underline-offset-4 hover:underline transition-all duration-300" href="#">Contact</a>
+</div>
+</div>
+</footer>
+</body></html>
