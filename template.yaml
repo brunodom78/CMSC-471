@@ -24,28 +24,35 @@ Resources:
                 type: aws_proxy
                 uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${StateicProxyFunction.Arn}/invocations
               responses: {}
+          /api/health:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HealthFunction.Arn}/invocations
+              responses: {}
+          /api/inbox:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LInbox.Arn}/invocations
+              responses: {}
+            post:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LInbox.Arn}/invocations
+              responses: {}
+          /api/inbox/{key}:
+            delete:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LInbox.Arn}/invocations
+              responses: {}
       EndpointConfiguration: REGIONAL
       TracingEnabled: false
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Description: !Sub
-        - Stack ${AWS::StackName} Function ${ResourceName}
-        - ResourceName: HelloWorldFunction
-      CodeUri: hello_service
-      Handler: handler.handler
-      Runtime: python3.13
-      Role: !Ref LabRoleArn
-      MemorySize: 3008
-      Timeout: 30
-      Environment: {}
-  HelloWorldFunctionLogGroup:
-    Type: AWS::Logs::LogGroup
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Retain
-    Properties:
-      LogGroupName: !Sub /aws/lambda/${HelloWorldFunction}
-      RetentionInDays: 7
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -100,11 +107,107 @@ Resources:
             RestApiId: !Ref Api
   StateicProxyFunctionLogGroup:
     Type: AWS::Logs::LogGroup
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Retain
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
     Properties:
       LogGroupName: !Sub /aws/lambda/${StateicProxyFunction}
+      RetentionInDays: 14
+  HealthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Function ${ResourceName}
+        - ResourceName: HealthFunction
+      CodeUri: health_service
+      Handler: handler.handler
+      Runtime: python3.13
+      Role: !Ref LabRoleArn
+      MemorySize: 3008
+      Timeout: 30
+      Environment: {}
+      Events:
+        ApiGET:
+          Type: Api
+          Properties:
+            Path: /api/health
+            Method: GET
+            RestApiId: !Ref Api
+  HealthFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${HealthFunction}
       RetentionInDays: 7
+  InboxBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub cmsc471-inboxbuck-${AWS::AccountId}
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: aws:kms
+              KMSMasterKeyID: alias/aws/s3
+      PublicAccessBlockConfiguration:
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+  InboxBucketBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref InboxBucket
+      PolicyDocument:
+        Id: RequireEncryptionInTransit
+        Version: '2012-10-17'
+        Statement:
+          - Principal: '*'
+            Action: '*'
+            Effect: Deny
+            Resource:
+              - !GetAtt InboxBucket.Arn
+              - !Sub ${InboxBucket.Arn}/*
+            Condition:
+              Bool:
+                aws:SecureTransport: 'false'
+  LInbox:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Function ${ResourceName}
+        - ResourceName: LInbox
+      CodeUri: src/inbox
+      Handler: handler.handler
+      Runtime: python3.13
+      Role: !Ref LabRoleArn
+      MemorySize: 3008
+      Timeout: 30
+      Environment:
+        Variables:
+          INBOX_BUCKET_NAME: !Ref InboxBucket
+      Events:
+        ApiGETInbox:
+          Type: Api
+          Properties:
+            Path: /api/inbox
+            Method: GET
+            RestApiId: !Ref Api
+        ApiPOSTInbox:
+          Type: Api
+          Properties:
+            Path: /api/inbox
+            Method: POST
+            RestApiId: !Ref Api
+        ApiDELETEInbox:
+          Type: Api
+          Properties:
+            Path: /api/inbox/{key}
+            Method: DELETE
+            RestApiId: !Ref Api
+  LInboxLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${LInbox}
 Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL
