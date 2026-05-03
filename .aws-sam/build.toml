@@ -25,9 +25,39 @@ codeuri = "/Users/dombruno/CMSC-473/CMSC-471/src/inbox"
 runtime = "python3.13"
 architecture = "x86_64"
 handler = "handler.handler"
-source_hash = "707ab322491229b5e73be53e8209f8ab27165057ede224211deb3be51252cad3"
+source_hash = "2afb3acc66ce01e5a829d05269ef2f69efdc568551e1eb10eeca29ef872a70f2"
 manifest_hash = ""
 packagetype = "Zip"
 functions = ["LInbox"]
+
+[function_build_definitions.bde92c3f-1bb2-484b-8e31-27fcc146028a]
+codeuri = "/Users/dombruno/CMSC-473/CMSC-471/src/lsubmit"
+runtime = "python3.13"
+architecture = "x86_64"
+handler = "handler.lsubmit_handler"
+source_hash = "1d298c49925f7e7f2a2a2513b5a5f8a1710907f56ecbd0e2e9f74775f2b9dc1a"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["lsubmit"]
+
+[function_build_definitions.6e42ae00-7196-4e6a-ac20-dbbc747ba370]
+codeuri = "/Users/dombruno/CMSC-473/CMSC-471/src/statemachine"
+runtime = "python3.13"
+architecture = "x86_64"
+handler = "l1fetch.handler"
+source_hash = "9758f11b83941b51a9d0a7d35671f183db6c3dff3942b00d4ec4b88b7346105d"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["l1fetch", "L2call", "L3save"]
+
+[function_build_definitions.57ca6532-fd18-4507-9aa4-d95552a33db7]
+codeuri = "/Users/dombruno/CMSC-473/CMSC-471/src/lpoll"
+runtime = "python3.13"
+architecture = "x86_64"
+handler = "lpoll.handler"
+source_hash = "0313e2510da5b4534b807dd5c13fd6163f1ae71026e7a122ad93188ffec00384"
+manifest_hash = ""
+packagetype = "Zip"
+functions = ["LPoll"]
 
 [layer_build_definitions]

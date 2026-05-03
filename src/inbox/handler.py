@@ -1,8 +1,10 @@
 import json
 import boto3
 import os
+from botocore.client import Config
+from urllib.parse import unquote
 
-s3 = boto3.client('s3')
+s3 = boto3.client('s3', config=Config(signature_version='s3v4'))
 
 BUCKET = os.environ["INBOX_BUCKET_NAME"]  # [] not ()
 
@@ -14,7 +16,15 @@ def handler(event, context):
 
     if method == "GET":
         response = s3.list_objects_v2(Bucket=BUCKET)
-        files = [obj['Key'] for obj in response.get('Contents', [])]  # .get() not .get[]
+        # S3 list can occasionally return phantom entries that no longer exist
+        # (HEAD/GET 404 but LIST still surfaces them). HEAD-filter to drop them.
+        files = []
+        for obj in response.get('Contents', []):
+            try:
+                s3.head_object(Bucket=BUCKET, Key=obj['Key'])
+                files.append(obj['Key'])
+            except s3.exceptions.ClientError:
+                continue
         return {
             'statusCode': 200,
             'body': json.dumps(files),
@@ -38,7 +48,9 @@ def handler(event, context):
             'headers': headers,
         }
     elif method == "DELETE":
-        key = event['pathParameters']['key']  # fixed typo: pathParamaters -> pathParameters
+        # API Gateway leaves path params URL-encoded; decode so keys with
+        # spaces or unicode (e.g. "Screenshot ... PM.png") match the actual S3 key.
+        key = unquote(event['pathParameters']['key'])
         s3.delete_object(Bucket=BUCKET, Key=key)
         return {
             'statusCode': 200,
